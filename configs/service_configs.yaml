@@ -1,0 +1,30 @@
+server:
+  host: 0.0.0.0
+  grpcport: 7777
+  httpport: 8000
+
+database:
+  host: localhost
+  port: 5432
+  user: bale
+  password: bale.postgres.ir!
+  db: bale
+  connectionMaxLifetime: 0
+  maxIdleConnections: 20
+  maxOpenConnections: 20
+
+cache:
+  client: redis
+  host: localhost
+  port: 6379
+  password: bale.redis.ir!
+
+
+credential:
+  tokensecret: secret
+
+rateLimit:
+  - name: get_profile
+    requestsPerSecond: 1
+
+
