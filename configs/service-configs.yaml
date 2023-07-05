@@ -23,8 +23,8 @@ cache:
 credential:
   tokensecret: secret
 
-rateLimit:
-  - name: get_profile
+ratelimit:
+  - rpcName: get_user_profile
     requestsPerSecond: 1
 
 
