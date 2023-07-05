@@ -24,6 +24,7 @@ type CacheConfiguration struct {
 	Host     string `mapstructure:"host"`
 	Port     string `mapstructure:"port"`
 	Password string `mapstructure:"password"`
+	DB       string `mapstructure:"db"`
 }
 
 type Credential struct {

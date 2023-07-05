@@ -18,6 +18,7 @@ cache:
   host: localhost
   port: 6379
   password: bale.redis.ir!
+  db: 0
 
 
 credential:
