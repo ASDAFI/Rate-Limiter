@@ -31,6 +31,9 @@ clean:
 	-rm -rf dist
 	@echo "Done cleanning."
 
+deployment:
+	docker-compose -f ./deployment/compose/docker-compose.yml up -d
+
 
 GOCMD=go
 GOMOD=GO111MODULE=on $(GOCMD) mod
