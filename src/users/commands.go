@@ -6,9 +6,10 @@ import (
 )
 
 type CreateUserCommand struct {
-	Username string
-	Password string
-	Email    string
+	Username  string
+	Password  string
+	Email     string
+	FirstName string
 }
 
 type RequestRateIncrementByUserIdCommand struct {

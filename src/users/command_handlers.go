@@ -24,9 +24,10 @@ func (h *CommandHandler) CreateUser(ctx context.Context, command CreateUserComma
 	}
 
 	user, err := NewUser(CreateUserParameters{
-		Username: command.Username,
-		Password: string(pass),
-		Email:    command.Email,
+		Username:  command.Username,
+		Password:  string(pass),
+		Email:     command.Email,
+		FirstName: command.FirstName,
 	})
 	if err != nil {
 		return nil, err
