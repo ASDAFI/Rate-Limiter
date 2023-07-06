@@ -24,7 +24,10 @@ You can deploy the needed services(like postgres and redis) using following comm
 make deployment
 ```
 
-
+### Database Migration
+```bash
+./rate_limiter migrate
+```
 
 
 
