@@ -1,6 +1,5 @@
 # Rate-Limiter
 
-# Rate Limiter
 
 ## Introduction
 Welcome to our rate limiter service! This powerful solution is built using the sliding window counter algorithm, offering efficient rate limiting capabilities. Our service is designed to integrate seamlessly with gRPC, providing you with a flexible and customizable rate limiting middleware.
