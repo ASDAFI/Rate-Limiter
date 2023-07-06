@@ -1,3 +1,6 @@
 ./deployments/compose/redis.conf
 ./proto/google
-*.bin
+*.o
+*.ko
+*.obj
+*.elf
