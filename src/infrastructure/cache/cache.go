@@ -5,6 +5,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
 	"service/configs"
+	"strconv"
 )
 
 type Provider struct {
@@ -15,26 +16,21 @@ type Provider struct {
 
 var RedisCacheProvider Provider
 
-func getConnectionString(config configs.CacheConfiguration) string {
-	connectionString := fmt.Sprintf("redis://%s:%s@%s:%d/%s", config.Client, config.Password,
-		config.Host, config.Port, config.DB)
-	return connectionString
-}
+func createConnection(config configs.CacheConfiguration) (*redis.Client, error) {
+	DB, _ := strconv.ParseInt(config.DB, 10, 32)
+	client := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%d", config.Host, config.Port),
+		Password: config.Password, // no password set
+		DB:       int(DB),         // use default DB
+	})
 
-func createConnection(connectionString string) (*redis.Client, error) {
-	opt, err := redis.ParseURL(connectionString)
-	if err != nil {
-		return nil, err
-	}
-	client := redis.NewClient(opt)
 	return client, nil
 }
 
 func CreateRedisCacheProvider(config configs.CacheConfiguration) (Provider, error) {
 
 	log.Infof("connection to redis: host=%s port=%d user=%s dbname=%s ", config.Host, config.Port, config.Client, config.DB)
-	connectionString := getConnectionString(config)
-	client, err := createConnection(connectionString)
+	client, err := createConnection(config)
 
 	if err != nil {
 		log.Fatal("Error in redis connection: ", err)

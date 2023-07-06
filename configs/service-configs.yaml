@@ -25,7 +25,7 @@ credential:
   tokensecret: secret
 
 ratelimit:
-  - rpcName: get_user_profile
-    requestsPerSecond: 1
+  - rpcName: /service.server.Server/GetUser
+    requestsPerMinute: 20
 
 

@@ -13,7 +13,7 @@ import (
 
 func Authenticate(ctx context.Context) (context.Context, error) {
 	method, ok := grpc.Method(ctx)
-	if ok && method == "/service.ritalin.RitalinServer/Login" {
+	if ok && method == "/service.server.Server/Login" {
 		return ctx, nil
 	}
 	encodedToken, err := grpc_auth.AuthFromMD(ctx, "bearer")

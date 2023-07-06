@@ -33,7 +33,7 @@ type Credential struct {
 
 type RateLimitConfiguration struct {
 	RPCName           string `mapstructure:"rpcName"`
-	RequestsPerSecond int    `mapstructure:"requestsPerSecond"`
+	RequestsPerMinute int    `mapstructure:"requestsPerMinute"`
 }
 
 type Configuration struct {
