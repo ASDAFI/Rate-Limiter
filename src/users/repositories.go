@@ -6,8 +6,12 @@ import (
 	"service/src/infrastructure/cache"
 	"service/src/infrastructure/db"
 	"strconv"
+	"sync"
 	"time"
 )
+
+var IncrLock sync.Mutex
+var SetLock sync.Mutex
 
 type UserRepository struct {
 	dBInfrastructure    db.Provider
@@ -42,6 +46,8 @@ func (r *UserRepository) FindTokenByUsername(ctx context.Context, username strin
 }
 
 func (r *UserRepository) IncrementKey(ctx context.Context, key string) error {
+	IncrLock.Lock()
+	defer IncrLock.Unlock()
 	err := r.cacheInfrastructure.Client.Incr(ctx, key).Err()
 	if err != nil && err != redis.Nil {
 		return err
@@ -51,6 +57,7 @@ func (r *UserRepository) IncrementKey(ctx context.Context, key string) error {
 }
 
 func (r *UserRepository) IsExistKey(ctx context.Context, key string) (bool, error) {
+
 	exists, err := r.cacheInfrastructure.Client.Exists(ctx, key).Result()
 	if err != nil && err != redis.Nil {
 		return false, err
@@ -77,7 +84,8 @@ func (r *UserRepository) GetKey(ctx context.Context, key string) (uint, error) {
 }
 
 func (r *UserRepository) SetKey(ctx context.Context, key string, value interface{}, expiration time.Duration) error {
-
+	SetLock.Lock()
+	defer SetLock.Unlock()
 	err := r.cacheInfrastructure.Client.Set(ctx, key, value, expiration).Err()
 	if err != nil && err != redis.Nil {
 		return err
