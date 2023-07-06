@@ -22,7 +22,7 @@ type DatabaseConfiguration struct {
 type CacheConfiguration struct {
 	Client   string `mapstructure:"client"`
 	Host     string `mapstructure:"host"`
-	Port     string `mapstructure:"port"`
+	Port     int    `mapstructure:"port"`
 	Password string `mapstructure:"password"`
 	DB       string `mapstructure:"db"`
 }
