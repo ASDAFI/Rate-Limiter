@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package service.server;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "messages/user.proto";
+
+
+
+option go_package = "farm/src/proto/services/server";
+
+service RitalinServer {
+  rpc Login (messages.user.LoginRequest) returns (messages.user.LoginResponse) {
+    option (google.api.http) = {
+      post: "/login"
+      body: "*"
+      // checked!
+    };
+  }
+
+  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/logout"
+      body: "*"
+      // checked!
+    };
+  }
+
+  rpc GetUser (google.protobuf.Empty) returns (messages.user.User) {
+    option (google.api.http) = {
+      get: "/user"
+      // checked!
+    };
+  }
+
+
+
+}
