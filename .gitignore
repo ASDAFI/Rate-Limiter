@@ -1,0 +1,3 @@
+./deployments/compose/redis.conf
+./proto/google
+*.bin
