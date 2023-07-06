@@ -55,7 +55,7 @@ This command create user object with username=`ali`, password=`12345`, email=`al
 ./rate_limiter create user ali 12345 ali.sadafi.dev@gmail.com Ali
 ```
 
-### Sample requests to test:
+### Sample requests for test
 
 #### Login
 Use POST `/login` request with `username` and `password` parameters.
