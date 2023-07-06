@@ -18,14 +18,25 @@ type RequestRateIncrementByUserIdCommand struct {
 	Time    time.Time
 }
 
+type UpdateRequestCountCommand struct {
+	UserId  uint
+	RPCName string
+	Time    time.Time
+}
+
+type SetRateLimitCommand struct {
+	RequestsPerMinute uint
+	RPCName           string
+}
+
 func (cmd RequestRateIncrementByUserIdCommand) currentTimeHash() string {
-	minute := strconv.Itoa(int(cmd.Time.Unix() / 3660))
+	minute := strconv.Itoa(int(cmd.Time.Unix() / 60))
 	userId := strconv.Itoa(int(cmd.UserId))
 	return userId + cmd.RPCName + minute
 }
 
 func (cmd RequestRateIncrementByUserIdCommand) lastTimeHash() string {
-	minute := strconv.Itoa(int(cmd.Time.Unix()/3660) - 1)
+	minute := strconv.Itoa(int(cmd.Time.Unix()/60) - 1)
 	userId := strconv.Itoa(int(cmd.UserId))
 	return userId + cmd.RPCName + minute + "last"
 }

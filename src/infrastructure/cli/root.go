@@ -22,4 +22,5 @@ func init() {
 	rootCmd.PersistentFlags().Bool("viper", true, "use Viper for configuration")
 	cobra.OnInitialize(initConfig)
 	cobra.OnInitialize(setupConfig)
+	cobra.OnInitialize(setRateLimits)
 }

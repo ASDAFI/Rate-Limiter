@@ -77,3 +77,27 @@ func (h *CommandHandler) RequestRateIncrementByUserIdForLastWindow(ctx context.C
 	return nil
 
 }
+
+func (h *CommandHandler) SetRateLimit(ctx context.Context, command SetRateLimitCommand) error {
+	key := command.RPCName + "_rate_limit"
+	err := h.UserRepository.SetKey(ctx, key, command.RequestsPerMinute, 0)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (h *CommandHandler) UpdateRequestCount(ctx context.Context, command UpdateRequestCountCommand) error {
+	cmd := RequestRateIncrementByUserIdCommand{command.UserId, command.RPCName, command.Time}
+	err := h.RequestRateIncrementByUserIdForCurrentWindow(ctx, cmd)
+	if err != nil {
+		return err
+	}
+
+	err = h.RequestRateIncrementByUserIdForLastWindow(ctx, cmd)
+	if err != nil {
+		return err
+	}
+	return nil
+}
