@@ -8,9 +8,9 @@ import "messages/user.proto";
 
 
 
-option go_package = "farm/src/proto/services/server";
+option go_package = "service/src/proto/services/server";
 
-service RitalinServer {
+service Server {
   rpc Login (messages.user.LoginRequest) returns (messages.user.LoginResponse) {
     option (google.api.http) = {
       post: "/login"
