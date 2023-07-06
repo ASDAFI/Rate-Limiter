@@ -19,7 +19,8 @@ var PostgresDBProvider Provider
 
 func getConnectionString(config configs.DatabaseConfiguration) string {
 	connectionString := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.Host, config.Port, config.User, config.Password, config.DB)
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", config.Host,
+		config.Port, config.User, config.Password, config.DB)
 	return connectionString
 }
 
@@ -33,9 +34,8 @@ func createConnection(connectionString string) (*gorm.DB, error) {
 
 func CreateDBProvider(config configs.DatabaseConfiguration) (Provider, error) {
 
+	log.Infof("connection to postgres  host=%s port=%d user=%s dbname=%s ", config.Host, config.Port, config.User, config.DB)
 	connectionString := getConnectionString(config)
-	log.Info("host=%s port=%d user=%s dbname=%s ", config.Host, config.Port, config.User, config.DB)
-
 	db, err := createConnection(connectionString)
 	provider := &Provider{
 		config: config,
