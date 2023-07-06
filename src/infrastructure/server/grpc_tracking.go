@@ -42,9 +42,11 @@ func RunInsecureGRPCServer() {
 	grpcServer := grpc.NewServer(
 		grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
 			grpc_auth.StreamServerInterceptor(middlewares.Authenticate),
+			grpc_auth.StreamServerInterceptor(middlewares.RateLimiterHandler),
 		)),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 			grpc_auth.UnaryServerInterceptor(middlewares.Authenticate),
+			grpc_auth.UnaryServerInterceptor(middlewares.RateLimiterHandler),
 		)),
 		grpc.KeepaliveEnforcementPolicy(kaep), grpc.KeepaliveParams(kasp),
 	)

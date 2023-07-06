@@ -2,15 +2,12 @@ package users
 
 import (
 	"context"
-	"errors"
 	"github.com/golang/protobuf/ptypes/empty"
 	log "github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"service/src/infrastructure/cache"
 	"service/src/infrastructure/db"
 	pb_user "service/src/proto/messages/user"
-	"time"
 )
 
 type UserServer struct{}
@@ -26,9 +23,6 @@ func (s UserServer) Login(ctx context.Context, request *pb_user.LoginRequest) (*
 }
 
 func (s UserServer) GetUser(ctx context.Context, empty *emptypb.Empty) (*pb_user.User, error) {
-	method, _ := grpc.Method(ctx)
-
-	log.Info(method)
 
 	userId := ctx.Value("user_id").(uint)
 
@@ -36,23 +30,7 @@ func (s UserServer) GetUser(ctx context.Context, empty *emptypb.Empty) (*pb_user
 
 	userRepo := NewUserRepository(db.PostgresDBProvider, cache.RedisCacheProvider)
 	userQHandler := NewUserQueryHandler(userRepo)
-	userCHandler := NewCommandHandler(userRepo)
 
-	q := IsRateLimitedQuery{userId, method, time.Now()}
-	r, err := userQHandler.IsRateLimited(ctx, q)
-	if err != nil {
-		return nil, err
-	}
-	if r {
-		log.Info("RATE LIMIT!!!!!!")
-		return nil, errors.New("oops!")
-	}
-
-	c := UpdateRequestCountCommand{userId, method, time.Now()}
-	err = userCHandler.UpdateRequestCount(ctx, c)
-	if err != nil {
-		return nil, err
-	}
 	log.Info("Rate Increment")
 
 	query := GetUserByIdQuery{UserId: userId}
