@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/golang/protobuf v1.5.3
+	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/redis/go-redis/v9 v9.0.5
