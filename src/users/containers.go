@@ -10,7 +10,6 @@ type User struct {
 	Username  string `gorm:"column:username;unique_index;not null;"`
 	Password  string `gorm:"column:password;not null;"`
 	FirstName string `gorm:"column:first_name;"`
-	LastName  string `gorm:"column:last_name"`
 	Email     string `gorm:"column:email"`
 }
 
@@ -20,9 +19,10 @@ type AuthToken struct {
 }
 
 type CreateUserParameters struct {
-	Username string
-	Password string
-	Email    string
+	Username  string
+	Password  string
+	Email     string
+	FirstName string
 }
 
 func NewUser(params CreateUserParameters) (*User, error) {
@@ -30,9 +30,10 @@ func NewUser(params CreateUserParameters) (*User, error) {
 		return nil, err
 	}
 	user := &User{
-		Username: params.Username,
-		Password: params.Password,
-		Email:    params.Email,
+		Username:  params.Username,
+		Password:  params.Password,
+		Email:     params.Email,
+		FirstName: params.FirstName,
 	}
 	return user, user.validateForCreateNewInstance()
 }
