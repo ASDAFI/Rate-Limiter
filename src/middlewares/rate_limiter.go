@@ -13,6 +13,9 @@ import (
 
 func RateLimiterHandler(ctx context.Context) (context.Context, error) {
 	method, _ := grpc.Method(ctx)
+	if method == "/service.server.Server/Login" {
+		return ctx, nil
+	}
 	userId := ctx.Value("user_id").(uint)
 
 	userRepo := users.NewUserRepository(db.PostgresDBProvider, cache.RedisCacheProvider)
