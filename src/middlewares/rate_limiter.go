@@ -17,6 +17,16 @@ func RateLimiterHandler(ctx context.Context) (context.Context, error) {
 
 	userRepo := users.NewUserRepository(db.PostgresDBProvider, cache.RedisCacheProvider)
 	userQHandler := users.NewUserQueryHandler(userRepo)
+	hasRPCRatelimitq := users.HasRPCRateLimitQuery{RPCName: method}
+	hasRPCRateLimit, err := userQHandler.HasRPCRateLimit(ctx, hasRPCRatelimitq)
+	if err != nil {
+		log.Info("Error in rate limiter: ", err)
+		return nil, grpc.Errorf(codes.Internal, "some problems")
+	}
+	if !hasRPCRateLimit {
+		return ctx, nil
+	}
+
 	userCHandler := users.NewCommandHandler(userRepo)
 
 	q := users.IsRateLimitedQuery{userId, method, time.Now()}
